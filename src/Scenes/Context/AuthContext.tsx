@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 import Cookie from "js-cookie";
 interface user {
 	names: string;
@@ -7,7 +7,7 @@ interface user {
 }
 interface authContextType {
 	isAuth: boolean;
-	user: user;
+	user: user | null;
 	loginUser: (user: user) => void;
 	logoutUser: () => void;
 }
@@ -20,23 +20,27 @@ export const useAuth = () => {
 	}
 	return context;
 };
+interface providerProps {
+	children: ReactNode;
+}
 
-export const AuthProvider = ({ children }) => {
-	const browserUser = Cookie.get("user")
-		? JSON.parse(Cookie.get("user"))
-		: null;
+export const AuthProvider = ({ children }: providerProps) => {
+	const browserUserString = Cookie.get("user");
+	const browserUser = browserUserString ? JSON.parse(browserUserString) : null;
 	const authenticated =
 		Cookie.get("token") &&
 		Cookie.get("token") !== "" &&
-		Cookie.get("token") != null
+		Cookie.get("token") !== null
 			? true
 			: false;
 	const [isAuth, setIsAuth] = useState<boolean>(authenticated);
 	const [user, setUser] = useState<user | null>(browserUser);
-	const loginUser = (user: user): void => {
+
+	const loginUser = (userData: user): void => {
 		setIsAuth(true);
-		setUser(user);
+		setUser(userData);
 	};
+
 	const logoutUser = (): void => {
 		Cookie.remove("token");
 		Cookie.remove("user");

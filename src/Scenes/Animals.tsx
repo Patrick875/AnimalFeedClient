@@ -1,9 +1,11 @@
-import React from "react";
+import { Outlet } from "react-router-dom";
 
-interface Props {}
-
-const Animals = (props: Props) => {
-	return <div>Animals</div>;
+const Animals = () => {
+	return (
+		<div>
+			<Outlet />
+		</div>
+	);
 };
 
 export default Animals;

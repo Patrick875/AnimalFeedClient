@@ -3,20 +3,20 @@ import { Link, useNavigate } from "react-router-dom";
 import loginArt from "./../assets/loginart.svg";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { HashLoader } from "react-spinners";
+
 import instance from "../API";
 import { useAuth } from "./Context/AuthContext";
 
-interface loginData {
-	username: string;
-	email: string;
-}
+// interface loginData {
+// 	user: string;
+// 	password: string;
+// }
 interface error {
 	status: boolean;
 	message: string;
 }
 
-const Login = (props: Props) => {
+const Login = () => {
 	const { loginUser } = useAuth();
 	const [success, setSuccess] = useState<boolean>(false);
 	const [error, setError] = useState<error | null>(null);
@@ -26,7 +26,7 @@ const Login = (props: Props) => {
 	const clearError = () => {
 		setError(null);
 	};
-	const login = async (data: loginData) => {
+	const onSubmit = async (data: any) => {
 		setLoading(true);
 		await instance
 			.post("/login", data)
@@ -37,7 +37,7 @@ const Login = (props: Props) => {
 					email: res.data.user.email,
 					telephone: res.data.user.telephone,
 				});
-				navigate(`/${res.data.user.role}`);
+				navigate(`/admin`);
 				reset();
 			})
 			.catch((err) => {
@@ -51,10 +51,10 @@ const Login = (props: Props) => {
 
 	return (
 		<motion.div
-			initial={{ opacity: 0, x: -50, transition: { duration: 0.5 } }}
+			initial={{ opacity: 0, x: -50 }}
 			animate={{ opacity: 1, x: 0, transition: { duration: 0.8 } }}
-			className="w-full flex min-h-screen items-center">
-			<div className="basis-2/5 mx-auto p-8">
+			className="flex items-center w-full min-h-screen">
+			<div className="p-8 mx-auto basis-2/5">
 				<div className="flex justify-center">
 					<img
 						src={loginArt}
@@ -62,19 +62,19 @@ const Login = (props: Props) => {
 						className="block w-40 h-40"
 					/>
 				</div>
-				<form onSubmit={handleSubmit(login)} className=" ">
+				<form onSubmit={handleSubmit(onSubmit)} className="">
 					<label className="block text-xs">Email/Telephone</label>
 					<input
-						className="w-full px-3 py-1 my-1 font-light border border-gray-300  placeholder:text-xs placeholder:italic focus-outline:none focus:outline-none focus:border-gray-700 focus:ring-1 focus:ring-gray-900"
+						className="w-full px-3 py-1 my-1 font-light border border-gray-300 placeholder:text-xs placeholder:italic focus-outline:none focus:outline-none focus:border-gray-700 focus:ring-1 focus:ring-gray-900"
 						type="text"
 						placeholder="Email/Telephone"
-						{...register("username")}
+						{...register("user")}
 						onFocus={clearError}
 					/>
 					<label className="block text-xs">Password</label>
 
 					<input
-						className="w-full px-3 py-1 my-1 font-light border border-gray-300  placeholder:text-xs placeholder:italic focus-outline:none focus:outline-none focus:border-gray-700 focus:ring-1 focus:ring-gray-900"
+						className="w-full px-3 py-1 my-1 font-light border border-gray-300 placeholder:text-xs placeholder:italic focus-outline:none focus:outline-none focus:border-gray-700 focus:ring-1 focus:ring-gray-900"
 						type="password"
 						placeholder="Password"
 						{...register("password")}
@@ -99,6 +99,11 @@ const Login = (props: Props) => {
 						<p className="text-xs font-medium text-center text-pink-800 capitalize align-middle ">
 							{error.message}
 						</p>
+					</div>
+				)}
+				{success && (
+					<div className="flex justify-center w-full mt-2 bg-[#D4E7DB] border border-teal-800">
+						<p className="text-center text-teal-800">Login SuccessFull</p>
 					</div>
 				)}
 			</div>

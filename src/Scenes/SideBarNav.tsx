@@ -12,7 +12,7 @@ export const SideBarNav = ({ navlinks, backgroundColor }: SideBarNavProps) => {
 		<aside
 			className={`sticky top-0 self-start min-h-screen col-span-2 ${backgroundColor} `}>
 			<div className=" flex flex-col min-w-[24vw]">
-				<div className="p-4 basis-1/8 text-white text-2xl">
+				<div className="p-4 text-2xl text-white basis-1/8">
 					{/* <Logo textColor="text-primary-white" /> */}
 					LOGO
 				</div>
@@ -22,7 +22,6 @@ export const SideBarNav = ({ navlinks, backgroundColor }: SideBarNavProps) => {
 							key={crypto.randomUUID()}
 							page={el.page}
 							link={el.link}
-							icon={el.icon}
 							defaultColor={backgroundColor}
 							location={el.location}>
 							{el.icon}
