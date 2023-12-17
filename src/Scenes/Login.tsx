@@ -11,15 +11,15 @@ import { useAuth } from "./Context/AuthContext";
 // 	user: string;
 // 	password: string;
 // }
-interface error {
-	status: boolean;
-	message: string;
-}
+// interface error {
+// 	status: boolean;
+// 	message: string;
+// }
 
 const Login = () => {
 	const { loginUser } = useAuth();
 	const [success, setSuccess] = useState<boolean>(false);
-	const [error, setError] = useState<error | null>(null);
+	const [error, setError] = useState<boolean | null>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const { register, handleSubmit, reset } = useForm();
 	const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Login = () => {
 			})
 			.catch((err) => {
 				console.log(err);
-				setError({ status: true, message: err.response.data.message });
+				setError(true);
 			})
 			.finally(() => {
 				setLoading(false);
@@ -94,10 +94,10 @@ const Login = () => {
 						<Link to="/reset-password">Reset password</Link>
 					</span>
 				</p>
-				{error && error.status && (
+				{error && (
 					<div className="flex items-center justify-center w-4/5 p-2 mx-auto mt-2 bg-pink-100 border border-pink-700 ">
 						<p className="text-xs font-medium text-center text-pink-800 capitalize align-middle ">
-							{error.message}
+							Error loging in try again
 						</p>
 					</div>
 				)}
