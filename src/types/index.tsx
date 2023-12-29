@@ -16,6 +16,7 @@ export interface weightandtime {
 	weight: number;
 	time: number;
 	date: string;
+	name?: string;
 	__v: number;
 }
 export interface animal {
